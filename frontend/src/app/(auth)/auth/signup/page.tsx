@@ -44,8 +44,11 @@ export default function SignUpPage() {
       await signUpWithEmail(data.email, data.password, data.displayName)
       router.push('/auth/signin?verification=sent')
     } catch (error: unknown) {
+      console.error('Sign-up failed:', error)
       if (error instanceof Error && error.message.includes('email-already-in-use')) {
         toast.error('An account with this email already exists')
+      } else if (error instanceof Error) {
+        toast.error(error.message)
       } else {
         toast.error('Failed to create account. Please try again.')
       }
